@@ -1,0 +1,99 @@
+{
+  "estudiante": "Juan Ignacio Bruzzone",
+  "fecha": "14 de octubre de 2026",
+  "introduccion": "Esta entrega reúne ocho desafíos de práctica: dos de criptografía, dos de web, dos de análisis forense y dos de ingeniería inversa. En cada uno se explica cómo llegar a la flag y qué idea deja el ejercicio. Las flags se comprobaron en la versión actual de la plataforma.",
+  "apoyo": "La plantilla inicial se tomó como estructura. Las resoluciones y la documentación se revisaron y reprodujeron con asistencia de Codex, usando los archivos actuales de la plataforma.",
+  "desafios": [
+    {
+      "nombre": "The Numbers", "id": 68, "categoria": "Criptografía", "dificultad": "Fácil",
+      "pasos": [
+        "La imagen muestra números separados por espacios y una parte entre llaves. Todos están entre 1 y 26, así que tiene sentido probar la posición de cada letra en el alfabeto: 1=A, 2=B y así hasta 26=Z.",
+        "Los primeros números, 16 9 3 15 3 20 6, dan PICOCTF. Eso confirma el patrón. Aplicando la misma conversión al resto aparece THENUMBERSMASON.",
+        "Se transcribió la secuencia a numeros.txt y se convirtió con Python. Las llaves se mantienen tal como aparecen en la imagen. La pista pide PICOCTF{} en mayúsculas, y ese fue el formato aceptado."
+      ],
+      "codigo": "16 9 3 15 3 20 6 {20 8 5 14 21 13 2 5 18 19 13 1 19 15 14}\n\npython3 herramientas/resolver.py numeros archivos/numeros.txt\n\nResultado: PICOCTF{THENUMBERSMASON}",
+      "herramientas": "Visor de imágenes y Python 3.",
+      "flag": "PICOCTF{THENUMBERSMASON}",
+      "aprendizaje": "Antes de probar algo complicado conviene mirar el rango de los valores. Acá no hace falta una clave: es una sustitución directa de números por letras. El prefijo de la flag sirve para comprobar si la interpretación tiene sentido.",
+      "captura": "01-numeros.jpg", "extra": "../archivos/the_numbers.png", "pie": "Enunciado, pista del formato y flag reconstruida."
+    },
+    {
+      "nombre": "GET aHEAD", "id": 132, "categoria": "Web", "dificultad": "Fácil",
+      "pasos": [
+        "La instancia devuelve una página con dos opciones: Choose Red y Choose Blue. En el HTML, un formulario usa GET y el otro POST. Esa diferencia, junto con el nombre del desafío, orienta a revisar los métodos HTTP.",
+        "La respuesta GET se guardó para leer el HTML. Después se hizo una petición HEAD a la misma dirección con curl. La opción -I pide las cabeceras sin descargar el cuerpo de la respuesta.",
+        "La respuesta HEAD trae una cabecera llamada flag. Su valor es la solución y la plataforma lo aceptó. La dirección y el puerto corresponden a esta ejecución; al iniciar otra instancia pueden cambiar."
+      ],
+      "codigo": "curl http://chatelaine.cylabacademy.net:16534/\ncurl -I http://chatelaine.cylabacademy.net:16534/\n\nHTTP/1.1 200 OK\nServer: Apache/2.4.38 (Debian)\nX-Powered-By: PHP/7.2.34\nflag: academy{r3j3ct_th3_du4l1ty_57f62d9}\nContent-Type: text/html; charset=UTF-8",
+      "herramientas": "curl y lectura del HTML descargado.",
+      "flag": "academy{r3j3ct_th3_du4l1ty_57f62d9}",
+      "aprendizaje": "Mirar solamente lo que se ve en una página puede dejar afuera información útil. Las cabeceras también forman parte de la respuesta. En este desafío el servidor cambia su comportamiento según el método HTTP.",
+      "captura": "02-getahead.jpg", "pie": "Desafío web y flag obtenida de la cabecera HTTP."
+    },
+    {
+      "nombre": "information", "id": 186, "categoria": "Análisis forense", "dificultad": "Fácil",
+      "pasos": [
+        "El archivo cat.jpg se identifica con file como una imagen JPEG de 2560 por 1598 píxeles. Eso indica el tipo de archivo, pero no alcanza para saber qué información extra contiene.",
+        "Con strings se buscaron cadenas legibles dentro del archivo. Al filtrar por license apareció un campo de metadatos XMP: cc:license, con un valor en rdf:resource. La cadena no parece una licencia normal y encaja con Base64.",
+        "Se decodificó ese valor con base64 -d y apareció la flag. En esta resolución se usaron file y strings; no fue necesario usar ExifTool. La flag se validó en la plataforma."
+      ],
+      "codigo": "file archivos/cat.jpg\nstrings archivos/cat.jpg | rg 'license'\n\n<cc:license rdf:resource=\n'YWNhZGVteXt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9'/>\n\nprintf '%s' 'YWNhZGVteXt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9' | base64 -d\nacademy{the_m3tadata_1s_modified}",
+      "herramientas": "file, strings, ripgrep (rg) y base64.",
+      "flag": "academy{the_m3tadata_1s_modified}",
+      "aprendizaje": "Una imagen puede guardar datos que no se ven al abrirla. En este caso están en los metadatos XMP. Base64 solo cambia la representación del texto: no lo cifra ni lo protege.",
+      "captura": "03-information.jpg", "pie": "Archivo del desafío y flag recuperada de sus metadatos."
+    },
+    {
+      "nombre": "vault-door-training", "id": 7, "categoria": "Ingeniería inversa", "dificultad": "Fácil",
+      "pasos": [
+        "El desafío entrega VaultDoorTraining.java. El método checkPassword compara la contraseña con una cadena fija mediante equals. Esa cadena contiene la parte interna de la flag.",
+        "También hay que mirar main: substring quita el prefijo academy{ y el último carácter antes de pasar la entrada a checkPassword. Por eso la cadena de equals, sola, no es la flag completa.",
+        "Se agregó el prefijo y la llave final. El programa se compiló con javac y se probó con la flag completa: respondió Access granted. Después la misma flag fue aceptada por la plataforma."
+      ],
+      "codigo": "String input = userInput.substring(\n    \"academy{\".length(), userInput.length()-1);\n\nreturn password.equals(\"w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf\");\n\njavac -d tmp archivos/VaultDoorTraining.java\nprintf '%s\\n' 'academy{w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf}' | java -cp tmp VaultDoorTraining\n\nEnter vault password: Access granted.",
+      "herramientas": "Lectura del código Java, javac y java.",
+      "flag": "academy{w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf}",
+      "aprendizaje": "No alcanza con encontrar una cadena que parezca una contraseña. Hay que seguir cómo se procesa la entrada y qué se compara. Un secreto escrito directamente en el código queda expuesto a quien pueda leerlo.",
+      "captura": "04-java.jpg", "pie": "Código fuente disponible en la plataforma y flag reconstruida."
+    },
+    {
+      "nombre": "Mod 26", "id": 144, "categoria": "Criptografía", "dificultad": "Fácil",
+      "pasos": [
+        "El enunciado menciona ROT13 y entrega values.txt. El texto empieza con npnqrzl{, que al desplazar cada letra 13 posiciones se convierte en academy{.",
+        "Se leyó el archivo y se aplicó ROT13 con Python, usando codecs.decode. El procedimiento mueve las letras y mantiene números, llaves, guiones bajos y el apóstrofo.",
+        "El resultado conserva exactamente las mayúsculas y minúsculas de la flag. Se copió completo, incluido el apóstrofo de I'll, y la plataforma lo aceptó."
+      ],
+      "codigo": "# Texto de values.txt\nnpnqrzl{arkg_gvzr_V'yy_gel_2_ebhaqf_bs_ebg13_5p5s5o36}\n\npython3 herramientas/resolver.py rot13 archivos/values.txt\n\nacademy{next_time_I'll_try_2_rounds_of_rot13_5c5f5b36}",
+      "herramientas": "Python 3 y el módulo estándar codecs.",
+      "flag": "academy{next_time_I'll_try_2_rounds_of_rot13_5c5f5b36}",
+      "aprendizaje": "ROT13 es un desplazamiento fijo de 13 letras. Si se aplica dos veces se vuelve al texto original, porque 13 + 13 completa las 26 posiciones del alfabeto. No sirve para proteger un secreto.",
+      "captura": "05-mod26.jpg", "pie": "Texto del desafío y flag descifrada con ROT13."
+    },
+    {
+      "nombre": "Glory of the Garden", "id": 44, "categoria": "Análisis forense", "dificultad": "Fácil",
+      "pasos": [
+        "El archivo garden.jpg se identifica con file como un JPEG de 2999 por 2249 píxeles. El enunciado avisa que contiene más de lo que parece.",
+        "Se extrajeron las cadenas legibles con strings y se buscaron posibles prefijos de flag con rg. Apareció el texto Here is a flag seguido de la solución completa.",
+        "Como comprobación adicional, se comparó la ubicación de la flag con el marcador de fin de JPEG, FF D9. El marcador empieza en el byte 2295132 y la flag en el 2295150, contando desde cero: el texto está después del final de la imagen. La plataforma aceptó la flag."
+      ],
+      "codigo": "file archivos/garden.jpg\nstrings archivos/garden.jpg | rg 'academy\\{|picoCTF\\{|PICOCTF\\{'\n\nHere is a flag: academy{more_than_m33ts_the_3y3ee53c6bc}\n\nMarcador de fin JPEG: byte 2295132\nInicio de la flag:    byte 2295150",
+      "herramientas": "file, strings, ripgrep (rg) y Python 3 para verificar los offsets.",
+      "flag": "academy{more_than_m33ts_the_3y3ee53c6bc}",
+      "aprendizaje": "Un visor puede mostrar una imagen normal aunque el archivo tenga texto agregado al final. Este caso es distinto de information: acá la flag está como texto después de la imagen, no dentro de un campo de metadatos.",
+      "captura": "07-garden.jpg", "pie": "Imagen del desafío y flag encontrada entre las cadenas del archivo."
+    },
+    {
+      "nombre": "vault-door-1", "id": 12, "categoria": "Ingeniería inversa", "dificultad": "Media",
+      "pasos": [
+        "VaultDoor1.java verifica una contraseña de 32 caracteres. Las comparaciones charAt indican qué carácter debe haber en cada posición, pero las posiciones aparecen desordenadas.",
+        "La clave es ordenar por el índice de charAt, no por el orden de las líneas. Por ejemplo, charAt(0) pide d, charAt(1) pide 3 y charAt(2) pide 5. Se extrajeron los pares de índice y carácter con una expresión regular y se colocaron en una lista de 32 posiciones.",
+        "Al unir la lista se obtuvo d35cr4mbl3_tH3_cH4r4cT3r5_d66e42. main quita academy{ y la llave final, así que se agregaron para formar la flag. El programa compilado respondió Access granted. y la plataforma aceptó el resultado."
+      ],
+      "codigo": "python3 herramientas/resolver_vault1.py\n\nd35cr4mbl3_tH3_cH4r4cT3r5_d66e42\nacademy{d35cr4mbl3_tH3_cH4r4cT3r5_d66e42}\n\njavac -d tmp archivos/VaultDoor1.java\nprintf '%s\\n' 'academy{d35cr4mbl3_tH3_cH4r4cT3r5_d66e42}' | java -cp tmp VaultDoor1\n\nEnter vault password: Access granted.",
+      "herramientas": "Python 3, expresiones regulares, javac y java.",
+      "flag": "academy{d35cr4mbl3_tH3_cH4r4cT3r5_d66e42}",
+      "aprendizaje": "Desordenar las comprobaciones hace menos cómoda la lectura, pero no oculta los datos necesarios para reconstruir la contraseña. En este ejercicio importa entender los índices: charAt empieza a contar desde cero.",
+      "captura": "08-vault1.jpg", "pie": "Código fuente de vault-door-1 y flag reconstruida por posiciones."
+    }
+  ]
+}

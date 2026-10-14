@@ -1,0 +1,10 @@
+{
+  "modo": "java",
+  "entrada": "archivos/VaultDoorTraining.java",
+  "sha256": "b35d9fd3351551e87bb7241a0a8df2c16207387f1ad5db566a6a9e8e429003a5",
+  "prefijo_en_codigo": "academy{",
+  "password": "w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf",
+  "salida": "academy{w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf}",
+  "nota": "Reconstrucción del código. El formato aceptado se comprueba en la plataforma.",
+  "validacion_en_plataforma": "No realizada por este script"
+}

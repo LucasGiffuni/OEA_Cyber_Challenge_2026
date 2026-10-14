@@ -1,0 +1,10 @@
+{
+  "modo": "metadatos",
+  "entrada": "archivos/cat.jpg",
+  "sha256": "c16dbbffa9b4b6237e007239f6caf448a02a0e20417bb95be562c98c42571ed7",
+  "identificacion": "archivos/cat.jpg: JPEG image data, JFIF standard 1.02, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 2560x1598, components 3",
+  "campo": "cc:license / rdf:resource (XMP)",
+  "valor": "YWNhZGVteXt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9",
+  "salida": "academy{the_m3tadata_1s_modified}",
+  "validacion_en_plataforma": "No realizada por este script"
+}

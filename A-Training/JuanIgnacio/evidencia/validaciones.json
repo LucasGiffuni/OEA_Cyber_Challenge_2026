@@ -1,0 +1,50 @@
+{
+  "The Numbers": {
+    "flag": "PICOCTF{THENUMBERSMASON}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/68"
+  },
+  "GET aHEAD": {
+    "flag": "academy{r3j3ct_th3_du4l1ty_57f62d9}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/132"
+  },
+  "information": {
+    "flag": "academy{the_m3tadata_1s_modified}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/186"
+  },
+  "vault-door-training": {
+    "flag": "academy{w4rm1ng_Up_w1tH_jAv4_69bd4dc7adf}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/7"
+  },
+  "Mod 26": {
+    "flag": "academy{next_time_I'll_try_2_rounds_of_rot13_5c5f5b36}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/144"
+  },
+  "Insp3ct0r": {
+    "flag": "academy{tru3_d3t3ct1ve_0r_ju5t_lucky?aa3ae7c8}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/18"
+  },
+  "Glory of the Garden": {
+    "flag": "academy{more_than_m33ts_the_3y3ee53c6bc}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/44"
+  },
+  "vault-door-1": {
+    "flag": "academy{d35cr4mbl3_tH3_cH4r4cT3r5_d66e42}",
+    "resultado": "Correct flag!",
+    "fecha": "2026-10-14",
+    "enlace": "https://learn.cylabacademy.org/library/12"
+  }
+}

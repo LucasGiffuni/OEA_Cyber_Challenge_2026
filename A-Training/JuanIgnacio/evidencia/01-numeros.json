@@ -1,0 +1,7 @@
+{
+  "modo": "numeros",
+  "entrada": "archivos/numeros.txt",
+  "sha256": "127d8d998978d683ec58fb8357b36a4fa0698288519836592578f226a1d4d582",
+  "salida": "PICOCTF{THENUMBERSMASON}",
+  "validacion_en_plataforma": "No realizada por este script"
+}

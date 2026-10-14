@@ -1,0 +1,7 @@
+{
+  "modo": "rot13",
+  "entrada": "archivos/values.txt",
+  "sha256": "b845070e880d317755d27b71fb707b2c99d48a3fcbd403da6447b9052ab6f2a4",
+  "salida": "academy{next_time_I'll_try_2_rounds_of_rot13_5c5f5b36}",
+  "validacion_en_plataforma": "No realizada por este script"
+}

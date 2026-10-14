@@ -1,0 +1,6 @@
+{
+  "modo": "head",
+  "entrada": "http://chatelaine.cylabacademy.net:16534/",
+  "salida": "HTTP/1.1 200 OK\nDate: Wed, 14 Oct 2026 23:32:51 GMT\nServer: Apache/2.4.38 (Debian)\nX-Powered-By: PHP/7.2.34\nflag: academy{r3j3ct_th3_du4l1ty_57f62d9}\nContent-Type: text/html; charset=UTF-8\n\n",
+  "validacion_en_plataforma": "No realizada por este script"
+}
