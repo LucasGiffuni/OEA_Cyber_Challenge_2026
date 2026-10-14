@@ -1,0 +1,32 @@
+# WebStorm / JetBrains
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Node.js (in case you add tooling later)
+node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build/output
+dist/
+build/
+out/
+coverage/
+
+# Local IDE/editor settings
+.vscode/
